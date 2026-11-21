@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101827">
+  <title>Cartelas — Multiplayer Bingo</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+  <header class="topbar">
+    <a class="brand" href="#"><span class="brand-mark">C</span><span>cartelas<small>75-BALL BINGO</small></span></a>
+    <div id="header-user" class="header-user hidden"></div>
+  </header>
+
+  <main>
+    <section id="auth-view" class="auth-layout">
+      <div class="hero-copy">
+        <span class="eyebrow">PLAY TOGETHER. WIN TOGETHER.</span>
+        <h1>Your next<br><span>Bingo moment.</span></h1>
+        <p>Join a room, get your personal Cartela, and follow every number live with players everywhere.</p>
+        <div class="feature-row"><span>● Live multiplayer</span><span>● Automatic Cartelas</span><span>● Virtual coins</span></div>
+      </div>
+      <div class="panel auth-panel">
+        <div class="auth-tabs"><button class="tab active" data-auth="login">Sign in</button><button class="tab" data-auth="register">Create account</button></div>
+        <form id="auth-form">
+          <h2 id="auth-title">Welcome back</h2><p class="muted" id="auth-subtitle">Sign in to continue to Cartelas.</p>
+          <label>Email address<input id="auth-email" type="email" autocomplete="email" required placeholder="you@example.com"></label>
+          <label id="username-wrap" class="hidden">Username<input id="auth-username" maxlength="24" placeholder="Choose a username"></label>
+          <label>Password<input id="auth-password" type="password" minlength="6" autocomplete="current-password" required placeholder="At least 6 characters"></label>
+          <button class="primary full" type="submit" id="auth-submit">Sign in</button>
+          <p id="auth-message" class="form-message" aria-live="polite"></p>
+        </form>
+        <p class="tiny-note">Virtual coins only. No real-money payments are processed.</p>
+      </div>
+    </section>
+
+    <section id="app-view" class="hidden">
+      <div class="welcome-row">
+        <div><span class="eyebrow">PLAYER LOBBY</span><h1>Welcome, <span id="welcome-name">Player</span></h1><p class="muted">Find a room and take your seat.</p></div>
+        <div class="wallet-chip"><span>YOUR BALANCE</span><strong id="wallet-balance">0</strong><small>virtual coins</small></div>
+      </div>
+      <nav class="nav-tabs">
+        <button class="nav-tab active" data-page="lobby">Lobby</button>
+        <button class="nav-tab" data-page="wallet">Wallet</button>
+        <button class="nav-tab" data-page="history">History</button>
+        <button class="nav-tab hidden" id="admin-tab" data-page="admin">Admin</button>
+      </nav>
+
+      <section id="page-lobby" class="page">
+        <div class="section-heading"><div><h2>Available rooms</h2><p class="muted">Choose a waiting room to join.</p></div><button class="subtle" id="refresh-rooms">Refresh</button></div>
+        <div id="rooms-grid" class="rooms-grid"><div class="empty-state">Loading rooms…</div></div>
+        <div id="active-game" class="panel game-panel hidden">
+          <div class="section-heading"><div><span class="eyebrow">LIVE GAME</span><h2 id="game-room-name">Your Bingo room</h2></div><span id="game-status" class="status-pill">WAITING</span></div>
+          <div class="game-layout">
+            <div class="game-main">
+              <div class="current-number"><span>NOW DRAWING</span><strong id="current-number">—</strong><small id="draw-count">0 / 75 numbers</small></div>
+              <div class="section-heading compact"><h3>Your Cartela</h3><span class="muted" id="marked-count">0 marked</span></div>
+              <div id="cartela" class="cartela"></div>
+              <div class="claim-row"><select id="claim-pattern"><option value="line">Any line</option><option value="fullHouse">Full house</option></select><button class="primary" id="claim-bingo">Claim Bingo</button></div>
+              <p id="claim-message" class="form-message"></p>
+            </div>
+            <aside class="draw-history"><h3>Drawn numbers</h3><div id="number-history" class="number-history"></div><h3>Players <span id="player-count"></span></h3><div id="players-list"></div></aside>
+          </div>
+        </div>
+      </section>
+
+      <section id="page-wallet" class="page hidden">
+        <div class="section-heading"><div><h2>Wallet</h2><p class="muted">Virtual coin balance and deposit requests.</p></div></div>
+        <div class="wallet-summary panel"><span>AVAILABLE COINS</span><strong id="wallet-page-balance">0</strong><small>Coins are simulated and have no cash value.</small></div>
+        <div class="two-column">
+          <form id="deposit-form" class="panel form-panel">
+            <h3>Request a top-up</h3><p class="muted">Submit a request for an administrator to review.</p>
+            <label>Requested coins<input id="deposit-amount" type="number" min="1" max="1000000" required placeholder="e.g. 500"></label>
+            <label>Transaction reference (optional)<input id="deposit-reference" maxlength="100" placeholder="Reference number"></label>
+            <label>Payment evidence image (optional)<input id="deposit-image" type="file" accept="image/png,image/jpeg,image/webp"></label>
+            <label>Notes (optional)<textarea id="deposit-notes" rows="3" maxlength="500" placeholder="Additional information"></textarea></label>
+            <button class="primary" type="submit">Submit request</button><p id="deposit-message" class="form-message"></p>
+          </form>
+          <div class="panel form-panel"><h3>My requests</h3><div id="my-deposits" class="stack-list">No requests yet.</div></div>
+        </div>
+      </section>
+
+      <section id="page-history" class="page hidden">
+        <div class="section-heading"><div><h2>Game & transaction history</h2><p class="muted">Your recent account activity.</p></div></div>
+        <div class="panel form-panel"><h3>Recent transactions</h3><div id="my-transactions" class="stack-list">Loading…</div></div>
+      </section>
+
+      <section id="page-admin" class="page hidden">
+        <div class="section-heading"><div><h2>Administrator console</h2><p class="muted">Manage rooms, deposits and players.</p></div><span class="status-pill">ADMIN ACCESS</span></div>
+        <div class="admin-grid">
+          <form id="room-form" class="panel form-panel">
+            <h3>Create Bingo room</h3>
+            <label>Room name<input id="room-name" required maxlength="40" placeholder="Friday Night Bingo"></label>
+            <div class="field-pair"><label>Entry fee<input id="room-fee" type="number" min="0" value="0" required></label><label>Max players<input id="room-capacity" type="number" min="2" max="20" value="20" required></label></div>
+            <div class="field-pair"><label>Draw interval (seconds)<input id="room-interval" type="number" min="3" max="60" value="5" required></label><label>Winning pattern<select id="room-pattern"><option value="line">Any line</option><option value="fullHouse">Full house</option></select></label></div>
+            <button class="primary" type="submit">Create room</button><p id="room-message" class="form-message"></p>
+          </form>
+          <div class="panel form-panel"><h3>Deposit approvals <span id="pending-count" class="count-badge">0</span></h3><div id="pending-deposits" class="stack-list">Loading…</div></div>
+        </div>
+        <div class="panel form-panel admin-rooms"><h3>Room controls</h3><div id="admin-rooms-list" class="stack-list">Loading…</div></div>
+      </section>
+    </section>
+  </main>
+  <footer>© <span id="year"></span> Cartelas <span>•</span> A virtual-coin gaming experience</footer>
+  <div id="toast" class="toast" role="status"></div>
+  <script type="module" src="./js/app.js"></script>
+</body>
+</html>
