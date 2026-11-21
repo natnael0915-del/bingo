@@ -1,11 +1,19 @@
 <!doctype html>
+<!-- Cartelas single-file frontend: UI, CSS, Firebase web config, and client logic are embedded here. Trusted Cloud Functions and Firebase security rules remain deployed separately. -->
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#101827">
   <title>Cartelas — Multiplayer Bingo</title>
-  <link rel="stylesheet" href="./styles.css">
+  <style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+:root{--bg:#0b1220;--panel:#121d30;--panel2:#17243a;--line:#25344c;--text:#edf4ff;--muted:#8ea1bc;--blue:#5c8dff;--cyan:#4de0d0;--green:#4ed6a1;--red:#ff7185;--gold:#f5c96a}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden}.ambient{position:fixed;width:450px;height:450px;filter:blur(120px);opacity:.12;pointer-events:none;z-index:-1}.ambient-one{background:#356bff;top:-220px;left:-100px}.ambient-two{background:#17bda9;right:-180px;top:350px}.hidden{display:none!important}.topbar{height:78px;border-bottom:1px solid #ffffff12;display:flex;align-items:center;justify-content:space-between;padding:0 max(5vw,24px);background:#0b1220cc;backdrop-filter:blur(16px);position:sticky;top:0;z-index:5}.brand{display:flex;align-items:center;gap:12px;color:var(--text);text-decoration:none;font:700 21px 'Space Grotesk'}.brand small{display:block;color:var(--muted);font:600 9px 'DM Sans';letter-spacing:2px;margin-top:2px}.brand-mark{width:39px;height:39px;border-radius:12px;background:linear-gradient(135deg,var(--blue),#6c5bdf);display:grid;place-items:center;font:700 24px 'Space Grotesk';box-shadow:0 8px 24px #5c8dff33}.header-user{display:flex;align-items:center;gap:10px;color:#c9d5e7;cursor:pointer;font-size:13px}.avatar{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:#263b5c;color:#a9c7ff;font-weight:700}.signout{color:var(--muted);font-size:12px}main{width:min(1180px,90vw);margin:0 auto;min-height:calc(100vh - 145px)}h1,h2,h3,p{margin-top:0}h1,h2,h3{font-family:'Space Grotesk',sans-serif}h1{font-size:clamp(32px,5vw,52px);line-height:1.08;letter-spacing:-2px;margin:12px 0}h1 span{color:var(--cyan)}h2{font-size:27px;margin-bottom:7px}h3{font-size:17px;margin-bottom:12px}.muted{color:var(--muted);font-size:14px}.eyebrow{font-size:10px;letter-spacing:2.2px;color:var(--cyan);font-weight:700}.auth-layout{min-height:calc(100vh - 150px);display:grid;grid-template-columns:1fr 420px;align-items:center;gap:8vw;padding:55px 0}.hero-copy p{max-width:490px;color:#9aacc5;font-size:17px;line-height:1.7}.feature-row{display:flex;flex-wrap:wrap;gap:18px;color:#a9bbd4;font-size:12px;margin-top:32px}.feature-row span:first-letter{color:var(--cyan)}.panel{background:linear-gradient(145deg,#152238f5,#111c2ef5);border:1px solid var(--line);border-radius:18px;box-shadow:0 18px 55px #0002}.auth-panel{padding:30px}.auth-tabs{display:flex;padding:4px;background:#0b1526;border-radius:10px;margin-bottom:27px}.tab{flex:1;border:0;background:none;color:var(--muted);padding:10px;border-radius:8px;cursor:pointer;font-weight:600}.tab.active{background:#263b5c;color:white}.auth-panel h2{font-size:25px}.auth-panel form>p{margin-bottom:23px}label{display:block;color:#c4d0e1;font-size:12px;font-weight:600;margin:15px 0}input,textarea,select{display:block;width:100%;margin-top:8px;background:#0b1628;border:1px solid #2a3a53;border-radius:9px;padding:13px 14px;color:var(--text);font:14px 'DM Sans';outline:none}input:focus,textarea:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 3px #5c8dff20}input[type=file]{font-size:12px;padding:10px}.primary,.subtle,.approve,.reject,.pause-room,.draw-room{border:0;border-radius:9px;padding:12px 17px;font:700 13px 'DM Sans';cursor:pointer;transition:.2s}.primary{background:linear-gradient(110deg,#5689ff,#6b70e8);color:white;box-shadow:0 7px 20px #547fff2b}.primary:hover{filter:brightness(1.12);transform:translateY(-1px)}button:disabled{opacity:.45;cursor:not-allowed;transform:none!important}.full{width:100%}.subtle{background:#1c2b43;color:#b8c9e1}.approve{background:#174d42;color:#7cf0c3;padding:8px 10px}.reject{background:#4b2633;color:#ff9cac;padding:8px 10px}.pause-room,.draw-room{background:#263954;color:#d0def2;padding:8px 10px}.tiny-note{color:#7386a2;font-size:10px;text-align:center;margin:22px 0 0}.form-message{font-size:12px;color:var(--green);min-height:16px;margin:12px 0 0}.form-message.error,.error{color:var(--red)}.welcome-row{display:flex;align-items:center;justify-content:space-between;padding:46px 0 30px}.welcome-row h1{font-size:36px}.welcome-row h1 span{color:#fff}.wallet-chip{background:#142b38;border:1px solid #1f665e;border-radius:14px;padding:14px 20px;min-width:160px}.wallet-chip span,.wallet-summary span{display:block;font-size:9px;letter-spacing:1.8px;color:var(--cyan);font-weight:700}.wallet-chip strong{font:700 25px 'Space Grotesk';display:block;margin:5px 0}.wallet-chip small,.wallet-summary small{color:var(--muted);font-size:10px}.nav-tabs{display:flex;gap:7px;border-bottom:1px solid var(--line);margin-bottom:28px;overflow:auto}.nav-tab{background:none;border:0;color:var(--muted);padding:13px 18px;cursor:pointer;font-weight:600;font-size:13px;white-space:nowrap;border-bottom:2px solid transparent}.nav-tab.active{color:white;border-color:var(--cyan)}.section-heading{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:10px 0 20px}.section-heading h2{margin:0}.rooms-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.room-card{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:19px}.room-card-top{display:flex;justify-content:space-between;align-items:center}.room-icon{width:37px;height:37px;border-radius:11px;background:#283d62;color:#9ec1ff;display:grid;place-items:center;font:700 21px 'Space Grotesk'}.room-card h3{margin:15px 0 5px}.room-card p{margin-bottom:17px}.status-pill{font-size:9px;font-weight:700;letter-spacing:1px;padding:6px 9px;border-radius:20px;background:#27344a;color:#b5c5da}.status-pill.active,.status-pill.approved{background:#174b40;color:#7de5bf}.status-pill.waiting,.status-pill.pending{background:#493c23;color:#f4ce7d}.status-pill.rejected,.status-pill.completed{background:#482b38;color:#ff9aab}.room-stats{display:flex;justify-content:space-between;border-top:1px solid var(--line);padding:13px 0;margin-bottom:12px}.room-stats small{display:block;color:var(--muted);font-size:9px;letter-spacing:1px}.room-stats strong{display:block;font:600 16px 'Space Grotesk';margin-top:4px}.empty-state{grid-column:1/-1;padding:35px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:14px}.game-panel{margin:28px 0;padding:22px}.game-layout{display:grid;grid-template-columns:1fr 260px;gap:25px}.compact{margin:24px 0 12px}.compact h3{margin:0}.current-number{background:radial-gradient(circle at 50% 10%,#263e65,#111c30 70%);border:1px solid #38547c;border-radius:15px;min-height:155px;display:flex;flex-direction:column;align-items:center;justify-content:center}.current-number span{font-size:9px;letter-spacing:2px;color:var(--cyan);font-weight:700}.current-number strong{font:700 56px 'Space Grotesk';line-height:1.2}.current-number small{color:var(--muted);font-size:11px}.cartela{width:min(100%,460px);margin:0 auto}.bingo-head,.bingo-row{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin-bottom:5px}.bingo-head span{background:#263e62;color:#d5e5ff;border-radius:7px;text-align:center;padding:10px;font:700 17px 'Space Grotesk'}.bingo-cell{aspect-ratio:1;background:#1b2a40;border:1px solid #30425c;border-radius:7px;display:grid;place-items:center;font:700 clamp(14px,2.5vw,21px) 'Space Grotesk';color:#d8e4f5}.bingo-cell.marked{background:linear-gradient(145deg,#147a76,#1ba995);border-color:#56e2cb;color:#fff;box-shadow:inset 0 0 0 1px #ffffff22}.bingo-cell.free{font-size:11px;background:#554b86;color:#fff}.claim-row{display:flex;gap:9px;max-width:460px;margin:14px auto}.claim-row select{margin:0;max-width:160px}.draw-history{border-left:1px solid var(--line);padding-left:20px}.draw-history h3{margin:8px 0 12px}.number-history{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:24px}.history-ball{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:#243751;color:#d4e3f8;font-size:10px;font-weight:700}.history-ball.latest{background:var(--cyan);color:#08201e}.player-line{display:flex;align-items:center;gap:8px;margin:9px 0;font-size:12px;color:#c3d1e5}.avatar.mini{width:25px;height:25px;font-size:10px}.wallet-summary{padding:24px;margin-bottom:18px}.wallet-summary strong{font:700 34px 'Space Grotesk';display:block;margin:8px 0}.two-column,.admin-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.form-panel{padding:22px}.form-panel h3{margin-bottom:6px}.form-panel>.muted{margin-bottom:20px}.form-panel label{margin:12px 0}.field-pair{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stack-list{margin-top:18px}.list-row{display:flex;justify-content:space-between;align-items:center;gap:12px;border-top:1px solid var(--line);padding:13px 0;font-size:12px}.list-row:first-child{border-top:0}.list-row small{display:block;color:var(--muted);font-size:10px;margin-top:5px}.list-row a{display:inline-block;color:var(--cyan);font-size:10px;margin-top:5px}.positive{color:var(--green)}.negative{color:var(--red)}.action-pair{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}.count-badge{background:#493c23;color:#f4ce7d;border-radius:20px;padding:3px 8px;font:600 11px 'DM Sans'}.admin-rooms{margin-top:18px}.toast{position:fixed;bottom:25px;left:50%;transform:translate(-50%,20px);opacity:0;background:#20334e;border:1px solid #3b5274;border-radius:10px;padding:12px 18px;color:white;font-size:13px;transition:.25s;z-index:10;pointer-events:none;max-width:90vw}.toast.show{opacity:1;transform:translate(-50%,0)}.toast.error{border-color:#9e4558}footer{padding:25px;text-align:center;color:#667b98;font-size:10px}footer span{padding:0 8px;color:var(--cyan)}
+@media(max-width:850px){.auth-layout{grid-template-columns:1fr;gap:35px;padding:45px 0}.hero-copy{text-align:center}.hero-copy p{margin:0 auto}.feature-row{justify-content:center}.auth-panel{width:min(100%,480px);margin:auto}.rooms-grid{grid-template-columns:repeat(2,1fr)}.game-layout{grid-template-columns:1fr}.draw-history{border-left:0;border-top:1px solid var(--line);padding:15px 0 0}.number-history{max-height:120px;overflow:auto}}
+@media(max-width:580px){main{width:92vw}.topbar{height:66px;padding:0 4vw}.header-user{font-size:0}.signout{font-size:10px}.welcome-row{align-items:flex-start;gap:10px;flex-direction:column;padding:32px 0 20px}.welcome-row h1{font-size:30px}.wallet-chip{display:flex;align-items:center;gap:10px;width:100%;min-width:0}.wallet-chip strong{margin:0 auto 0 0}.rooms-grid,.two-column,.admin-grid{grid-template-columns:1fr}.game-panel{padding:14px}.game-layout{gap:12px}.bingo-head,.bingo-row{gap:3px;margin-bottom:3px}.bingo-head span{padding:8px}.bingo-cell{border-radius:5px}.field-pair{gap:7px}.form-panel{padding:17px}.section-heading{align-items:flex-start}.section-heading h2{font-size:23px}.claim-row{flex-direction:column}.claim-row select{max-width:none}.claim-row button{width:100%}}
+
+  </style>
 </head>
 <body>
   <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
@@ -106,18 +114,223 @@
   <footer>© <span id="year"></span> Cartelas <span>•</span> A virtual-coin gaming experience</footer>
   <div id="toast" class="toast" role="status"></div>
   <script type="module">
-    // Firebase web configuration for the Cartelas app (bingo-89626).
-    // This is a client-side config; protect data with Firebase Security Rules.
-    window.CARTELAS_FIREBASE_CONFIG = {
-      apiKey: "AIzaSyDoeicY01HRxsuMWGM1vqOceT4sGpvGeRA",
-      authDomain: "bingo-89626.firebaseapp.com",
-      projectId: "bingo-89626",
-      storageBucket: "bingo-89626.firebasestorage.app",
-      messagingSenderId: "990928705952",
-      appId: "1:990928705952:web:3a3f971716acdf45196cc5",
-      measurementId: "G-7B0Z10HN3E"
-    };
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import {
+  getAuth, onAuthStateChanged, signInWithEmailAndPassword,
+  createUserWithEmailAndPassword, signOut
+} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import {
+  getFirestore, doc, getDoc, collection, query, where, orderBy, limit,
+  onSnapshot, addDoc, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js";
+import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-functions.js";
+const firebaseConfig = {
+  apiKey: "AIzaSyDoeicY01HRxsuMWGM1vqOceT4sGpvGeRA",
+  authDomain: "bingo-89626.firebaseapp.com",
+  projectId: "bingo-89626",
+  storageBucket: "bingo-89626.firebasestorage.app",
+  messagingSenderId: "990928705952",
+  appId: "1:990928705952:web:3a3f971716acdf45196cc5",
+  measurementId: "G-7B0Z10HN3E"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const storage = getStorage(app);
+const functions = getFunctions(app, "europe-west1");
+const call = name => httpsCallable(functions, name);
+const $ = id => document.getElementById(id);
+const state = { user:null, profile:null, wallet:null, roomId:null, gameId:null, cartela:null, game:null, rooms:[], unsubs:[], authMode:"login", drawTimer:null };
+
+$("year").textContent = new Date().getFullYear();
+
+function toast(message, error=false) {
+  const el=$("toast"); el.textContent=message; el.className=`toast show ${error?"error":""}`;
+  setTimeout(()=>el.classList.remove("show"),3500);
+}
+function message(id,text,error=false){ const el=$(id); if(el){el.textContent=text;el.className=`form-message ${error?"error":""}`;} }
+function setBusy(button,busy,label){button.disabled=busy; if(busy){button.dataset.old=button.textContent;button.textContent="Please wait…";}else{button.textContent=label||button.dataset.old||button.textContent;}}
+function clearListeners(){state.unsubs.forEach(fn=>fn());state.unsubs=[]; if(state.drawTimer)clearInterval(state.drawTimer);state.drawTimer=null;}
+function showPage(page){
+  document.querySelectorAll(".page").forEach(x=>x.classList.add("hidden"));
+  $("page-"+page)?.classList.remove("hidden");
+  document.querySelectorAll(".nav-tab").forEach(x=>x.classList.toggle("active",x.dataset.page===page));
+  if(page==="wallet") loadDeposits();
+  if(page==="history") loadTransactions();
+  if(page==="admin" && state.profile?.role==="admin") loadAdmin();
+}
+document.querySelectorAll(".nav-tab").forEach(b=>b.addEventListener("click",()=>showPage(b.dataset.page)));
+document.querySelectorAll("[data-auth]").forEach(b=>b.addEventListener("click",()=>{
+  state.authMode=b.dataset.auth;
+  document.querySelectorAll("[data-auth]").forEach(x=>x.classList.toggle("active",x===b));
+  $("username-wrap").classList.toggle("hidden",state.authMode!=="register");
+  $("auth-title").textContent=state.authMode==="login"?"Welcome back":"Create your account";
+  $("auth-subtitle").textContent=state.authMode==="login"?"Sign in to continue to Cartelas.":"Join the Cartelas community.";
+  $("auth-submit").textContent=state.authMode==="login"?"Sign in":"Create account";
+  $("auth-password").autocomplete=state.authMode==="login"?"current-password":"new-password";
+}));
+
+$("auth-form").addEventListener("submit",async e=>{
+  e.preventDefault(); const btn=$("auth-submit");setBusy(btn,true);
+  try{
+    const email=$("auth-email").value.trim(),password=$("auth-password").value;
+    if(state.authMode==="register"){
+      const username=$("auth-username").value.trim(); if(username.length<3)throw Error("Username must be at least 3 characters.");
+      const cred=await createUserWithEmailAndPassword(auth,email,password);
+      await call("createPlayerProfile")({username});
+    }else await signInWithEmailAndPassword(auth,email,password);
+    message("auth-message","");
+  }catch(err){message("auth-message",friendly(err),true);}
+  finally{setBusy(btn,false);}
+});
+$("header-user").addEventListener("click",async()=>{if(confirm("Sign out of Cartelas?")){clearListeners();await signOut(auth);}});
+
+onAuthStateChanged(auth,async user=>{
+  clearListeners();state.user=user;
+  if(!user){$("auth-view").classList.remove("hidden");$("app-view").classList.add("hidden");$("header-user").classList.add("hidden");return;}
+  try{
+    let snap=null;
+    // Registration creates the Auth account before the profile callable completes.
+    // Retry briefly to avoid treating that normal first-login race as a broken profile.
+    for(let attempt=0;attempt<8;attempt++){
+      snap=await getDoc(doc(db,"users",user.uid));
+      if(snap.exists())break;
+      await new Promise(resolve=>setTimeout(resolve,400));
+    }
+    if(!snap?.exists()){await signOut(auth);throw Error("Your profile is not ready. Please sign in again or contact the administrator.");}
+    state.profile={id:user.uid,...snap.data()};
+    $("auth-view").classList.add("hidden");$("app-view").classList.remove("hidden");
+    $("header-user").classList.remove("hidden");
+    $("header-user").innerHTML=`<span>${escapeHtml(state.profile.username||user.email)}</span><span class="avatar">${escapeHtml((state.profile.username||"P")[0].toUpperCase())}</span><span class="signout">Sign out</span>`;
+    $("welcome-name").textContent=state.profile.username||"Player";
+    $("admin-tab").classList.toggle("hidden",state.profile.role!=="admin");
+    subscribeWallet();subscribeRooms();restoreActiveGame();
+  }catch(err){toast(friendly(err),true);}
+});
+
+function subscribeWallet(){
+  state.unsubs.push(onSnapshot(doc(db,"wallets",state.user.uid),snap=>{
+    state.wallet=snap.data()||{balance:0};$("wallet-balance").textContent=fmt(state.wallet.balance||0);$("wallet-page-balance").textContent=fmt(state.wallet.balance||0);
+  }));
+}
+function subscribeRooms(){
+  const q=query(collection(db,"bingoRooms"),where("status","in",["waiting","active"]),orderBy("createdAt","desc"));
+  state.unsubs.push(onSnapshot(q,snap=>{state.rooms=snap.docs.map(d=>({id:d.id,...d.data()}));renderRooms();renderAdminRooms();},err=>toast(friendly(err),true)));
+}
+function renderRooms(){
+  const host=$("rooms-grid");if(!state.rooms.length){host.innerHTML='<div class="empty-state">No rooms are available right now. Check back soon.</div>';return;}
+  host.innerHTML=state.rooms.map(r=>`<article class="room-card"><div class="room-card-top"><span class="room-icon">B</span><span class="status-pill ${r.status}">${escapeHtml(r.status)}</span></div><h3>${escapeHtml(r.roomName)}</h3><p class="muted">75-ball Bingo · ${r.currentPlayers||0}/${r.maxPlayers} players</p><div class="room-stats"><div><small>ENTRY FEE</small><strong>${fmt(r.entryFee||0)}</strong></div><div><small>PRIZE POOL</small><strong>${fmt(r.prizePool||0)}</strong></div></div><button class="primary full join-room" data-id="${r.id}" ${r.status!=="waiting"?"disabled":""}>${r.status==="waiting"?"Join room":"Game in progress"}</button></article>`).join("");
+  host.querySelectorAll(".join-room").forEach(b=>b.addEventListener("click",()=>joinRoom(b.dataset.id,b)));
+}
+async function joinRoom(roomId,button){
+  setBusy(button,true);
+  try{const result=await call("joinRoom")({roomId});state.roomId=roomId;state.gameId=result.data.gameId;state.cartela=result.data.cartela;listenGame(roomId,result.data.gameId);toast("You joined the room. Your Cartela is ready.");}
+  catch(err){toast(friendly(err),true);}finally{setBusy(button,false,"Join room");}
+}
+async function restoreActiveGame(){
+  const q=query(collection(db,"bingoRooms"));
+  // Restore active/waiting membership by querying the user's player documents is not possible
+  // across subcollections; use the user's activeRoomId maintained by trusted join/leave functions.
+  const userSnap=await getDoc(doc(db,"users",state.user.uid));
+  const roomId=userSnap.data()?.activeRoomId;if(!roomId)return;
+  try{
+    const player=await getDoc(doc(db,"bingoRooms",roomId,"players",state.user.uid));if(!player.exists())return;
+    const room=await getDoc(doc(db,"bingoRooms",roomId));if(!room.exists())return;
+    state.roomId=roomId;state.gameId=room.data().activeGameId;state.cartelaId=player.data().cartelaId;
+    const c=await getDoc(doc(db,"bingoRooms",roomId,"cartelas",state.cartelaId));state.cartela=c.data();
+    listenGame(roomId,state.gameId);
+  }catch(e){console.warn("Could not restore game",e);}
+}
+function listenGame(roomId,gameId){
+  state.roomId=roomId;state.gameId=gameId;$("active-game").classList.remove("hidden");
+  state.unsubs.push(onSnapshot(doc(db,"bingoGames",gameId),snap=>{if(!snap.exists())return;state.game={id:snap.id,...snap.data()};renderGame();}));
+  state.unsubs.push(onSnapshot(doc(db,"bingoRooms",roomId,"players",state.user.uid),snap=>{
+    if(snap.exists()){const d=snap.data();state.cartelaId=d.cartelaId;getDoc(doc(db,"bingoRooms",roomId,"cartelas",d.cartelaId)).then(c=>{if(c.exists()){state.cartela=c.data();renderGame();}});}
+  }));
+  const playersQ=query(collection(db,"bingoRooms",roomId,"players"),orderBy("joinedAt","asc"));
+  state.unsubs.push(onSnapshot(playersQ,s=>{$("player-count").textContent=`(${s.size})`;$("players-list").innerHTML=s.docs.map(d=>`<div class="player-line"><span class="avatar mini">${escapeHtml((d.data().username||"P")[0].toUpperCase())}</span>${escapeHtml(d.data().username||"Player")}</div>`).join("");}));
+  const room=state.rooms.find(x=>x.id===roomId);$("game-room-name").textContent=room?.roomName||"Bingo room";
+}
+function renderGame(){
+  if(!state.game)return;const g=state.game,drawn=g.drawnNumbers||[];
+  $("game-status").textContent=(g.status||"waiting").toUpperCase();$("current-number").textContent=g.currentNumber?formatBall(g.currentNumber):"—";
+  $("draw-count").textContent=`${drawn.length} / 75 numbers`;
+  $("number-history").innerHTML=drawn.slice().reverse().map(n=>`<span class="history-ball ${n===g.currentNumber?"latest":""}">${formatBall(n)}</span>`).join("")||'<span class="muted">Numbers will appear here.</span>';
+  if(!state.cartela)return;const nums=state.cartela.numbers||[],marked=new Set([...drawn]);
+  const flat=nums.flat();let markedCount=0;
+  $("cartela").innerHTML=`<div class="bingo-head">${["B","I","N","G","O"].map(x=>`<span>${x}</span>`).join("")}</div>`+Array.from({length:5},(_,r)=>`<div class="bingo-row">${Array.from({length:5},(_,c)=>{
+    const n=nums[c]?.[r],free=r===2&&c===2,hit=free||(n&&marked.has(n));if(hit)markedCount++;
+    return `<div class="bingo-cell ${free?"free":""} ${hit?"marked":""}">${free?"FREE":n??""}</div>`;
+  }).join("")}</div>`).join("");
+  $("marked-count").textContent=`${markedCount} / 25 marked`;
+  $("claim-bingo").disabled=!["active"].includes(g.status);
+}
+$("claim-bingo").addEventListener("click",async()=>{
+  if(!state.roomId)return;const btn=$("claim-bingo");setBusy(btn,true);
+  try{const pattern=$("claim-pattern").value;const r=await call("claimBingo")({roomId:state.roomId,pattern});message("claim-message",r.data.message||"Bingo claim submitted.");}
+  catch(e){message("claim-message",friendly(e),true);}finally{setBusy(btn,false,"Claim Bingo");}
+});
+
+$("deposit-form").addEventListener("submit",async e=>{
+  e.preventDefault();const btn=e.submitter;setBusy(btn,true);
+  try{
+    const amount=Number($("deposit-amount").value);if(!Number.isSafeInteger(amount)||amount<1)throw Error("Enter a valid whole-number coin amount.");
+    let evidenceImage=null;const file=$("deposit-image").files[0];
+    if(file){if(file.size>5*1024*1024)throw Error("Image must be 5 MB or smaller.");const path=`deposit-evidence/${state.user.uid}/${crypto.randomUUID()}-${file.name.replace(/[^a-zA-Z0-9._-]/g,"_")}`;const uploaded=await uploadBytes(ref(storage,path),file);evidenceImage=await getDownloadURL(uploaded.ref);}
+    await call("submitDepositRequest")({amount,evidenceImage,transactionReference:$("deposit-reference").value.trim(),notes:$("deposit-notes").value.trim()});
+    $("deposit-form").reset();message("deposit-message","Request submitted. It is waiting for administrator review.");loadDeposits();
+  }catch(err){message("deposit-message",friendly(err),true);}finally{setBusy(btn,false,"Submit request");}
+});
+function loadDeposits(){
+  const q=query(collection(db,"depositRequests"),where("userId","==",state.user.uid),orderBy("createdAt","desc"),limit(30));
+  const unsub=onSnapshot(q,s=>{$("my-deposits").innerHTML=s.empty?"No requests yet.":s.docs.map(d=>{const x=d.data();return `<div class="list-row"><div><strong>${fmt(x.amount)} coins</strong><small>${date(x.createdAt)} · ${escapeHtml(x.status)}</small>${x.rejectionReason?`<small class="error">${escapeHtml(x.rejectionReason)}</small>`:""}</div><span class="status-pill ${x.status}">${escapeHtml(x.status)}</span></div>`;}).join("");});
+  state.unsubs.push(unsub);
+}
+function loadTransactions(){
+  const q=query(collection(db,"transactions"),where("userId","==",state.user.uid),orderBy("createdAt","desc"),limit(50));
+  state.unsubs.push(onSnapshot(q,s=>{$("my-transactions").innerHTML=s.empty?"No transactions yet.":s.docs.map(d=>{const x=d.data();return `<div class="list-row"><div><strong>${escapeHtml(x.description||x.type)}</strong><small>${date(x.createdAt)} · ${escapeHtml(x.type)}</small></div><strong class="${x.amount>=0?"positive":"negative"}">${x.amount>0?"+":""}${fmt(x.amount)}</strong></div>`;}).join("");}));
+}
+$("room-form").addEventListener("submit",async e=>{
+  e.preventDefault();const btn=e.submitter;setBusy(btn,true);
+  try{await call("createRoom")({roomName:$("room-name").value.trim(),entryFee:Number($("room-fee").value),maxPlayers:Number($("room-capacity").value),drawInterval:Number($("room-interval").value),winningPattern:$("room-pattern").value});$("room-form").reset();message("room-message","Room created successfully.");}
+  catch(err){message("room-message",friendly(err),true);}finally{setBusy(btn,false,"Create room");}
+});
+function loadAdmin(){
+  const q=query(collection(db,"depositRequests"),where("status","==","pending"),orderBy("createdAt","asc"),limit(100));
+  state.unsubs.push(onSnapshot(q,s=>{
+    $("pending-count").textContent=s.size;
+    $("pending-deposits").innerHTML=s.empty?"No pending requests.":s.docs.map(d=>{const x=d.data();return `<div class="list-row deposit-row"><div><strong>${fmt(x.amount)} coins · ${escapeHtml(x.username||"Player")}</strong><small>${escapeHtml(x.transactionReference||"No reference")} · ${date(x.createdAt)}</small>${x.evidenceImage?`<a href="${escapeAttr(x.evidenceImage)}" target="_blank" rel="noopener">View evidence</a>`:""}</div><div class="action-pair"><button class="approve" data-id="${d.id}">Approve</button><button class="reject" data-id="${d.id}">Reject</button></div></div>`;}).join("");
+    $("pending-deposits").querySelectorAll(".approve").forEach(b=>b.onclick=()=>reviewDeposit(b.dataset.id,true));
+    $("pending-deposits").querySelectorAll(".reject").forEach(b=>b.onclick=()=>reviewDeposit(b.dataset.id,false));
+  }));
+}
+async function reviewDeposit(id,approve){
+  let rejectionReason="";if(!approve){rejectionReason=prompt("Reason for rejection:")||"";if(!rejectionReason.trim())return;}
+  try{await call(approve?"approveDeposit":"rejectDeposit")({requestId:id,rejectionReason});toast(approve?"Deposit approved.":"Deposit rejected.");}
+  catch(e){toast(friendly(e),true);}
+}
+function renderAdminRooms(){
+  if(state.profile?.role!=="admin")return;
+  $("admin-rooms-list").innerHTML=state.rooms.length?state.rooms.map(r=>`<div class="list-row"><div><strong>${escapeHtml(r.roomName)}</strong><small>${r.currentPlayers||0}/${r.maxPlayers} players · ${escapeHtml(r.status)}</small></div><div class="action-pair">${r.status==="waiting"?`<button class="approve start-room" data-id="${r.id}">Start</button>`:""}${r.status==="active"?`<button class="pause-room" data-id="${r.id}">${r.paused?"Resume":"Pause"}</button><button class="reject end-room" data-id="${r.id}">End</button><button class="subtle draw-room" data-id="${r.id}">Draw now</button>`:""}</div></div>`).join(""):"No rooms.";
+  $("admin-rooms-list").querySelectorAll(".start-room").forEach(b=>b.onclick=()=>roomAction("startGame",b.dataset.id));
+  $("admin-rooms-list").querySelectorAll(".pause-room").forEach(b=>b.onclick=()=>roomAction(state.rooms.find(r=>r.id===b.dataset.id)?.paused?"resumeGame":"pauseGame",b.dataset.id));
+  $("admin-rooms-list").querySelectorAll(".end-room").forEach(b=>b.onclick=()=>{if(confirm("End this game?"))roomAction("endGame",b.dataset.id);});
+  $("admin-rooms-list").querySelectorAll(".draw-room").forEach(b=>b.onclick=()=>roomAction("drawNextNumber",b.dataset.id));
+}
+async function roomAction(name,roomId){
+  try{const result=await call(name)({roomId});toast(result.data?.message||"Room updated.");}
+  catch(e){toast(friendly(e),true);}
+}
+function fmt(n){return Number(n||0).toLocaleString();}
+function date(t){return t?.toDate?t.toDate().toLocaleString():"Just now";}
+function formatBall(n){return `${["B","I","N","G","O"][Math.floor((n-1)/15)]}${n}`;}
+function escapeHtml(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function escapeAttr(s){return escapeHtml(s);}
+function friendly(e){const code=e?.code||"";if(code.includes("permission-denied"))return "You do not have permission to perform that action.";if(code.includes("failed-precondition"))return e.message||"A required database index or setup step is missing.";return e?.message||"Something went wrong. Please try again.";}
+$("refresh-rooms").onclick=()=>toast("Room list is live and updates automatically.");
+
   </script>
-  <script type="module" src="./js/app.js"></script>
 </body>
 </html>
